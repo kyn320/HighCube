@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     public CameraController cam;
     public GameObject[] blocks;
     public GameObject dpObj;
-    public Transform dpPos, bombPos;
+    public Transform dpPos;
+    public GameObject explosion;
 
     public float timer = 60;
 
@@ -57,8 +58,10 @@ public class GameManager : MonoBehaviour
 
                 if (transform.position.y - hit.point.y < 5f)
                     transform.position += Vector3.up * 10f;
+                else if (hit.distance > 10f)
+                    transform.position -= Vector3.up * 5f;
 
-                cam.movePos.y = transform.position.y;
+                cam.movePos.y = hit.point.y;
                 UIManager.instance.SetHeight(h);
 
             }
@@ -106,8 +109,10 @@ public class GameManager : MonoBehaviour
 
     void ShotDP()
     {
-        GameObject g = Instantiate(dpObj, dpPos.position + (Vector3.up * (h / 4)), Quaternion.identity);
-        g.GetComponent<Rigidbody>().AddForce(Vector3.back * 250f, ForceMode.Impulse);
+        GameObject g1 = Instantiate(explosion,Vector3.zero + (Vector3.up *  (h/4)),Quaternion.identity);
+
+       // GameObject g2 = Instantiate(dpObj, dpPos.position + (Vector3.up * (h / 4)), Quaternion.identity);
+       // g2.GetComponent<Rigidbody>().AddForce(Vector3.back * 250f, ForceMode.Impulse);
     }
 
 }
